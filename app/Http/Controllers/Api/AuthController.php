@@ -23,9 +23,13 @@ class AuthController extends Controller
         }
 
         $request['password'] = Hash::make($request['password']);
-        $user = User::create($request->all());
-        $token = $user->createToken('userAuth')->accessToken;
-        return response()->json(['msg' => 'User Created Successfully','data'=>['user' => $user,'token' => $token]],201);
+        try {
+            $user = User::create($request->all());
+            $token = $user->createToken('userAuth')->accessToken;
+            return response()->json(['msg' => 'User Created Successfully','data'=>['user' => $user,'token' => $token]],201);
+        } catch(Exception $e) {
+            return response()->json(['msg' => 'Something went wrong.','error' => $e->getMessage()]);
+        }
     }
 
     public function login(Request $request)

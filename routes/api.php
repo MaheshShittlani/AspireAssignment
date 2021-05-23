@@ -20,8 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/auth/register',[Api\AuthController::class,'register'])->name('register.api');
-Route::post('/auth/login',[Api\AuthController::class,'login'])->name('login.api');
+Route::post('/auth/register',[Api\AuthController::class, 'register'])->name('register.api');
+Route::post('/auth/login',[Api\AuthController::class, 'login'])->name('login.api');
 Route::middleware('auth:api')->group(function () {
-    Route::post('/auth/logout', [Api\AuthController::class,'logout'])->name('logout.api');
+    Route::post('/auth/logout', [Api\AuthController::class, 'logout'])->name('logout.api');
+    Route::post('/loan/apply', [Api\LoanController::class, 'apply'])->name('loan.apply.api');
+    Route::post('/loan/repay', [Api\LoanController::class, 'repay'])->name('loan.apply.repay');
 });
+
+Route::put('admin/loan/update-status', [Api\LoanController::class,'updateStatus'])->name('admin.loan.updateStatus.api');
+Route::get('admin/loan/show', [Api\LoanController::class,'show'])->name('admin.loan.show.api');
