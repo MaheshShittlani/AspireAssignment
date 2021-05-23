@@ -46,7 +46,9 @@ Api Details
 7. Repay Loan amount - Pay the weekly loan amount by the authenticated users - Authorization required
 
 
-Note: Authentication by passport as it contains JWT token and support Outh2.
+Note: 
+    1. Authentication by passport as it contains JWT token and support Outh2.
+    2. It is assumed while loan is approved, we need to pass the ROI and for simplicty to calculate interest i have used simple interest formula.
 
 
 
