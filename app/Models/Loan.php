@@ -11,11 +11,17 @@ class Loan extends Model
 
     protected $fillable = ['amount','loan_terms','user_id','status','roi','loan_amount'];
     
+    /**
+     * GEt the schedules of loan
+     */
     public function schedules()
     {
         return $this->hasMany(LoanSchedule::class);
     }
 
+    /**
+     * Get the user belongs to the loan
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

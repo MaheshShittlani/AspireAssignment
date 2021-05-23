@@ -11,7 +11,9 @@ class LoanSchedule extends Model
 
     protected $fillable = ['loan_id', 'week_number', 'schedule_date', 'amount', 'status'];
 
-
+    /**
+     * Get the loan belong to the schedule
+     */
     public function loan()
     {
         return $this->belongsTo(Loan::class);

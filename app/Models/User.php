@@ -42,7 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
+    /**
+     * All loans owned by user. - One to many relationship
+     */
     public function loans()
     {
         return $this->hasMany(Loan::class);

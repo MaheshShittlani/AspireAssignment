@@ -11,14 +11,33 @@ use App\Models\LoanSchedule;
 
 class LoanController extends Controller
 {
+    /**
+     * Traits which have the functionality to make weekly schedules
+     */
     use \App\Traits\Schedule;
     
 
-    //Calculate loan amount by simple interest
+    /**
+     * Calculate final loan amount by using simple interest
+     * @param amount - Principal amount
+     * @param roi - Rate of interest
+     * @param loan_terms - Time of loan in years
+     * 
+     * @return amount - Principal + interest
+     */
     private function calcLoanAmount($amount, $roi, $loan_terms) {
         $amount = $amount + ($amount * $roi * $loan_terms / 100);
         return $amount;
     }
+
+    /**
+     * Apply for the new loan - A user can only apply for a new loan if any PENDING loan doesn't exists.
+     * 
+     * @param amout
+     * @param loan_terms 
+     * 
+     * @return json
+     */
 
     public function apply(Request $request)
     {
@@ -51,6 +70,20 @@ class LoanController extends Controller
         }
     }
 
+    /**
+     * Update loan status - Expected that once user apply for the loan it can be Approved / UnApproved.
+     * This api is executed by admin, for the sake of simplity no seperate admin panel is created.
+     * This api can be run without any authentication.
+     * 
+     * Ideally it should be run by the authencated admin user.
+     * 
+     * @param user_id
+     * @param loan_id
+     * @param status
+     * @param roi
+     * 
+     * @return json
+     */
     public function updateStatus(Request $request)
     {   
         $validator = Validator::make($request->all(),[
@@ -85,7 +118,16 @@ class LoanController extends Controller
         }
 
     }
-
+    /**
+     * This api is just to show the complete loan information along with user and schedule.
+     * This api supposed to be executed by the admin.
+     * 
+     * Ideally this api should be executed by authenticated admin user but here for the sake of simplicity
+     * it can be run with any admin authentication.
+     * 
+     * @param loan_id
+     * @return json
+     */
     public function show(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -100,6 +142,14 @@ class LoanController extends Controller
         return response()->json(['msg' => 'Loan Details','data' => $loan]);
     }
 
+    /**
+     * This api implements the functionality to pay the weekly payment by the user.
+     * 
+     * @param loan_id
+     * @param amount
+     * 
+     * @return json
+     */
     public function rePay(Request $request)
     {
         $validator = Validator::make($request->all(),[

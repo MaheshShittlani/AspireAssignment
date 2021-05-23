@@ -10,6 +10,15 @@ use Validator;
 
 class AuthController extends Controller
 {
+    /**
+     * Register a new user
+     * 
+     * @param name
+     * @param email
+     * @param password
+     * 
+     * @return json
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -32,6 +41,14 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Login user with email and password
+     * 
+     * @param email
+     * @param password
+     * 
+     * @return json
+     */
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -55,6 +72,12 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * Logout the current user and revoke the token
+     * @param userToken
+     * 
+     * @return json
+     */
     public function logout(Request $request)
     {
         return $token = $request->user();
